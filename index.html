@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note App by Abhishek</title>
+    <link rel="stylesheet" href="./style2.css">
+</head>
+
+<body>
+    <div class="nav">
+        <div class="note">
+            <button class="add">Add Note</button>
+        </div>
+    </div>
+
+    <div id="places">
+        <!-- <div class="boxes">
+            <div class="line">
+                <div class="but">
+                    <buttons class="btns">Save</buttons>
+                    <buttons class="btns">Delete</buttons>
+                </div>
+            </div>
+            <div class="input">
+                <textarea name="" id="" cols="30" rows="10"></textarea>
+            </div>
+        </div> -->
+
+    </div>
+    <script>
+        const add = document.querySelector('.add');
+        const places = document.querySelector('#places');
+
+        const saving=()=>{
+            const note=document.querySelectorAll('#places textarea');
+            const data=[];
+            note.forEach((item)=>{
+                data.push(item.value);
+            })
+            localStorage.setItem('itemJson',JSON.stringify(data));
+        }
+        // const showdata=()=>{
+        //     const note = JSON.parse(localStorage.getItem('itemJson'));
+        //     console.log(note)
+        //     if (note === null){
+        //         boxes()
+        //     }
+        //     else{
+        //         note.forEach((v)=>{
+        //             boxes(v);
+        //         })
+        //     }
+        // }
+        // showdata();
+
+        (
+    function() {
+        const lsNotes = JSON.parse(localStorage.getItem("itemJson"));
+        if (lsNotes === null) {
+            boxes()
+        } else {
+            lsNotes.forEach(
+                (lsNote) => {
+                    boxes(lsNote)
+                }
+            )
+        }
+
+    }
+)()
+
+
+        function boxes(title="") {
+            const box = document.createElement('div');
+            box.classList.add('boxes');
+            box.innerHTML = `
+            <div>
+            <div class="line">
+                <div class="but">
+                    <buttons class="btns" id="save">Save</buttons>
+                    <buttons class="btns" id="delete">Delete</buttons>
+                </div>
+                </div>
+                <div class="input">
+                    <textarea name="" id="" cols="30" rows="10">${title}</textarea>
+                    </div>
+                    </div> 
+                    `
+            box.querySelector('#save').addEventListener('click', function () {
+                saving();
+            })
+            // box.querySelector('textarea').addEventListener('mouseout',function(){
+            //     saving();
+            // })
+
+            box.querySelector('#delete').addEventListener('click', function () {
+                box.remove();
+                saving();
+            })
+            places.appendChild(box);
+        }
+        add.addEventListener('click', function () {
+            boxes();
+        });
+    </script>
+
+</body>
+
+</html>
